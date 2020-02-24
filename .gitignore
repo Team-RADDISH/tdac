@@ -9,3 +9,10 @@
 
 # Mac
 .DS_Store
+
+# Outputs
+*.dat
+fig/*
+
+# Executable
+*.x
