@@ -15,6 +15,7 @@ program tdac
   use m_params
   use m_llw2d
   use m_matrix
+  use m_pdaf
 
   implicit none
   character(256) :: title_da  = "da"   !< output file title
@@ -26,8 +27,9 @@ program tdac
 
   !! model sizes
   integer, parameter :: NN = 3*Nx*Ny
-  integer, parameter :: NTMAX = 3000  !< #time step
-
+  integer, parameter :: NTMAX = 300  !< #time step
+  integer, parameter :: dim_ensemble = 10
+  
   !! visualization
   integer, parameter :: ntdec = 10 !< decimation factor for visualization
 
@@ -45,6 +47,9 @@ program tdac
   real(DP), allocatable :: d_obs(:)        !< Forecast-observation residual
   integer,  allocatable :: ist(:), jst(:)  !< station location in digital grids
   integer  :: it
+
+  integer :: err
+  
   !! ----
 
   !!
@@ -67,6 +72,12 @@ program tdac
   call llw2d__initheight(mt(1:nx*ny))
   call llw2d__set_stations(ist, jst)
 
+  !!
+  !! Set up pdaf data assimilation library
+  !!
+
+  call init_pdaf(NN, dim_ensemble, err)
+  
   !!
   !! Calculate weight matrix used in the data assimilation
   !!
@@ -118,7 +129,9 @@ program tdac
     !! Assimilation
     ma = mf + matmul( ww, d_obs )
 
-  end do
+ end do
+
+ call finalize_pdaf()
 
 
 contains

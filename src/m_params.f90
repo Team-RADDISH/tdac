@@ -21,5 +21,26 @@ module m_params
   real(DP), parameter :: dy = 2000._DP     !<  grid width of y-direction (m)
   real(DP), parameter :: dt = 1.0_DP       !<  time step width (sec)
 
+  !! Parameters related to PDAF
+  integer, parameter :: filter_type = 12
+  integer, parameter :: filter_subtype = 0
+  integer, parameter :: stepnull = 0
+  integer, parameter :: dim_pint = 4
+  integer, parameter :: dim_preal = 1
+  integer, dimension(dim_pint) :: param_int
+  real, dimension(dim_preal) :: param_real
+
+  integer, parameter :: task_id = 0
+  integer, parameter :: n_modeltasks = 1
+  integer, parameter :: in_screen = 1
+  
+  logical, parameter :: in_filterpe = .False.
+
+  integer, parameter :: resampling_type = 1
+  integer, parameter :: perturbation_type = 1
+
+  real, parameter :: perturbation_level = 1.0e-3
+  
+  
 end module m_params
 !! ------------------------------------------------------------------------- !!
